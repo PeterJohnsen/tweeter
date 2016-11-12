@@ -4,7 +4,7 @@ from config import *
 
 app = Flask(__name__)
 
-@app.route('/', method=['GET'])
+@app.route('/', methods=['GET'])
 def index():
     return "Welcome to Tweeter"
 
