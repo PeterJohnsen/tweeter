@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="jumbotron" style="color: white;background-color: #03A9F4;">
+    {% with messages=get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="jumbotron" style="color: white;background-color: #03A9F4;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
@@ -16,22 +23,25 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <form style="padding-top:25px;">
-                        <div class="form-group">
-                            <input class="form-control" id="exampleInputName" placeholder="Name">
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" id="exampleInputUsername" placeholder="Choose Username">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Re-Type Password">
-                        </div>
+                    <form style="padding-top:25px;" action="{{ url_for('signup') }}" method="POST">
+                        {{ form.hidden_tag() }}
+                        {% for field in form %}
+                            {% if field.errors %}
+                                {% for error in field.errors %}
+                                    <span style="font-size: x-small;color: firebrick;"> {{ error }} </span>
+                                {% endfor %}
+                            {% endif %}
+                            <div class="form-group">
+                                {{ 
+                                    field(
+                                        placeholder=field.label.text.capitalize(),
+                                        class='form-control',
+                                        id=field.label.text,
+                                        style='color:#03A9F4'
+                                    )
+                                }}
+                            </div>
+                        {% endfor %}
                         <button type="submit" class="btn btn-lg btn-primary btn-block">Sign Up</button>
                     </form>
                 </div>

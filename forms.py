@@ -13,7 +13,8 @@ class SignUpForm(FlaskForm):
                                             Regexp(
                                                 r'^[a-zA-Z0-9_]+$',
                                                 message="Usename must not contain any special character except underscore"
-                                            ) 
+                                            ),
+                                            Length(min=3, max=18)
                                        ]
                )
     password = PasswordField('password', validators=[

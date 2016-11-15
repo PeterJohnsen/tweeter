@@ -9,7 +9,7 @@ database = SqliteDatabase(DATABASE)
 
 class User(Model):
     name = CharField(max_length=30)
-    username = CharField(unique=True, max_length=15)
+    username = CharField(unique=True, max_length=18)
     email = CharField(unique=True)
     password = CharField(max_length=20)
     joined_at = DateTimeField(default=datetime.datetime.now)
