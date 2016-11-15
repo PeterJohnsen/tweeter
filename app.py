@@ -2,6 +2,8 @@
 from flask import Flask, render_template
 
 from config import *
+import models
+import forms
 
 app = Flask(__name__)
 
@@ -12,4 +14,5 @@ def index():
 
 
 if __name__ == '__main__':
+    models.initialise()
     app.run(debug=DEBUG, host=HOST, port=PORT)
