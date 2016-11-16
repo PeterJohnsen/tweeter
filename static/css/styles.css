@@ -1,3 +1,7 @@
+body {
+    background-color:#f8f8f8;
+}
+
 .alert-success{
         color: #03A9F4;
         background-color: white;
@@ -9,3 +13,40 @@
         background-color: white;
         border-color: firebrick;
 }
+
+.btn-primary{
+        color: white;
+        background-color: #03A9F4;
+        border-color: white;
+}
+
+.btn-primary:hover {
+        color: #03A9F4;
+        background-color: white;
+        border-color: #03A9F4;
+}
+
+.form-control{
+        color: #03A9F4;
+}
+
+.jumbotron {
+        color: white;
+        background-color: #03A9F4;
+}
+
+.navbar {
+    background-color:white;
+}
+
+.navbar-brand {
+        color: #03A9F4 !important;
+        font-weight: 100;
+        font-size: xx-large;
+}
+
+.Brand-image {
+        padding: 5px;
+        margin-left: -15px;
+}
+
