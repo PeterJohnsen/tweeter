@@ -2,6 +2,10 @@ body {
     background-color:#f8f8f8;
 }
 
+a {
+         text-decoration: none !important;
+}
+
 .alert-success{
         color: #03A9F4;
         background-color: white;
@@ -26,10 +30,16 @@ body {
         border-color: #03A9F4;
 }
 
+@media screen and (max-width: 767px) {
+    .btn-signin{
+        width: 100%;
+    }
+} 
+
 .form-control{
         font-size: small;
         color: #03A9F4;
-        border-radius: 19px;
+        border-radius: 20px;
 }
 
 .jumbotron {
@@ -58,4 +68,8 @@ body {
         margin-top: 20px;
         border: 1px solid #e7e7e7;
         border-radius: 5px;
+}
+
+.fa {
+    color:#03A9F4;
 }

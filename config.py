@@ -1,5 +1,5 @@
 DEBUG=True
-HOST='0.0.0.0'
+HOST='127.0.0.1'
 PORT=8080
 DATABASE='tweeter.db'
 SECRET_KEY='jlkjsdflkbkjh9872h3hkj0990./987'

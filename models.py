@@ -2,12 +2,13 @@ import datetime
 
 from peewee import *
 from flask_bcrypt import generate_password_hash
+from flask_login import UserMixin
 
 from config import *
 
 database = SqliteDatabase(DATABASE)
 
-class User(Model):
+class User(UserMixin, Model):
     name = CharField(max_length=30)
     username = CharField(unique=True, max_length=18)
     email = CharField(unique=True)

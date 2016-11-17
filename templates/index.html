@@ -5,13 +5,6 @@
 {% endblock %}
 
 {% block content %}
-    {% with messages=get_flashed_messages(with_categories=True) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
     <div class="jumbotron">
         <div class="container">
             <div class="row">
@@ -24,8 +17,8 @@
                 </div>
                 <div class="col-md-4">
                     <form style="padding-top:25px;" action="{{ url_for('signup') }}" method="POST">
-                        {{ form.hidden_tag() }}
-                        {% for field in form %}
+                        {{ signup_form.hidden_tag() }}
+                        {% for field in signup_form %}
                             {% if field.errors %}
                                 {% for error in field.errors %}
                                     <span style="font-size: x-small;color: firebrick;"> {{ error }} </span>
