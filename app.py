@@ -5,13 +5,14 @@ from flask_bcrypt import check_password_hash
 
 from config import *
 import models
-from forms import SignupForm, LoginForm
+from forms import SignupForm, LoginForm, TweetForm
 
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'index'
 
 
 @login_manager.user_loader
@@ -78,19 +79,33 @@ def logout():
     signup_form = SignupForm()
     flash('We will miss you. :(', 'success')
     return render_template('index.html', login_form=login_form, signup_form=signup_form)
-    
+
+
+@app.route('/tweet', methods=['GET', 'POST'])
+@login_required
+def tweet():
+    tweet_form = TweetForm()
+    if tweet_form.validate_on_submit():
+        models.Tweet.create(
+                user=current_user._get_current_object(),
+                content=tweet_form.content.data.strip()
+        )
+        flash('You just tweeted. :)', 'success')
+        return redirect(url_for('index'))
+
+    return render_template('tweet.html', tweet_form=tweet_form)
 
 
 
-#@app.before_request
-#def before_request():
-#    models.database.connect()
-#
-#
-#@app.after_request
-#def after_request(response):
-#    models.database.close()
-#    return response
+@app.before_request
+def before_request():
+    models.database.connect()
+
+
+@app.after_request
+def after_request(response):
+    models.database.close()
+    return response
 
 
 if __name__ == '__main__':

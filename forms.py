@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
+from wtforms import StringField, PasswordField, TextAreaField
 from wtforms.validators import Email, DataRequired, Length, Regexp, EqualTo
 
 from customvalidators import EntryMustNotExist
@@ -30,3 +30,5 @@ class LoginForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired(), Length(min=5)])
 
 
+class TweetForm(FlaskForm):
+    content = TextAreaField("What's on your mind?...", validators=[DataRequired()])

@@ -25,18 +25,21 @@ class User(UserMixin, Model):
     def create_user(cls, input_name, input_email, input_username, input_password):
         cls.create(name=input_name, email=input_email, username=input_username, password=generate_password_hash(input_password))
 
+    def get_tweets(self):
+        return Tweet.select().where(Tweet.user == self)
 
- class Tweet(Model):
-     timestamp = DateTimeField(dafault=datetime.datetime.now)
-     user = ForeignKeyField(User, 'tweets')
-     content = TextField()
 
-     class Meta:
-         database = database
-         order_by = ('-timestamp',)
+class Tweet(Model):
+    timestamp = DateTimeField(default=datetime.datetime.now)
+    user = ForeignKeyField(User, 'tweets')
+    content = TextField()
+
+    class Meta:
+        database = database
+        order_by = ('-timestamp',)
 
 
 def initialise():
     database.connect()
-    database.create_tables([User], safe=True)
+    database.create_tables([User, Tweet], safe=True)
     database.close()

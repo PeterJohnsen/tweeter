@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Tweet | {{ super() }}
+{% endblock %}
+
+{% block content %}
+<form method="POST" action="">
+    {% for field in tweet_form %}
+    {{ tweet_form.hidden_tag() }}
+        {% if field.errors %}
+            <script>
+                {% for error in field.errors %}
+                    {% set error_exists = True %}
+                    $(document).ready(function() {
+                        $("#errors").append("<li>" + "{{ field.label.text.capitalize() }}: {{  error }}" + "</li>");
+                    })
+                {% endfor %}
+            </script>
+        {% endif %}
+        <div class="form-group">
+            {{ field(placeholder=field.label.text, class='form-control') }}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+{% endblock %}
