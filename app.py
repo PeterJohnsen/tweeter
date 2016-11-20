@@ -41,9 +41,9 @@ def signup():
                 input_username=signup_form.username.data,
                 input_password=signup_form.password.data
         )
-        flash('Yay, you are in now!', 'success')
+        flash('Welcome to tweeter! :)', 'success')
 
-        # automatic login users right after signup
+        # automatically login users right after signup
         user = models.User.get(models.User.username**signup_form.username.data)
         login_user(user)
         return render_template('dashboard.html')
