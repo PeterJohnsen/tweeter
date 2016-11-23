@@ -96,6 +96,12 @@ def tweet():
     return render_template('tweet.html', tweet_form=tweet_form)
 
 
+@app.route('/tweets', methods=['GET'])
+@login_required
+def tweets():
+    tweets = models.Tweet.select()
+    return render_template('tweets.html', tweets=tweets)
+
 
 @app.before_request
 def before_request():
