@@ -24,11 +24,17 @@ def load_user(userid):
 
 
 @app.route('/', methods=['GET'])
-def index():
-    if current_user.is_authenticated:
-        return render_template('dashboard.html')
-    signup_form = SignupForm()
+@app.route('/<username>', methods=['GET'])
+def index(username=None):
     login_form = LoginForm()
+    if username or current_user.is_authenticated:
+        if username:
+            user = models.User.get(models.User.username**username)
+        else:
+            user = current_user._get_current_object()
+        return render_template('dashboard.html', user=user, login_form=login_form)
+
+    signup_form = SignupForm()
     return render_template('index.html', signup_form=signup_form, login_form=login_form)
 
 
@@ -47,7 +53,7 @@ def signup():
         # automatically login users right after signup
         user = models.User.get(models.User.username**signup_form.username.data)
         login_user(user)
-        return render_template('dashboard.html')
+        return redirect(url_for('index'))
     else:
         login_form = LoginForm(None) # to render indexpage with empty login form
         return render_template('index.html', signup_form=signup_form, login_form=login_form)
@@ -64,12 +70,13 @@ def login():
         else:
             if check_password_hash(user.password, login_form.password.data):
                 login_user(user)
-                return render_template('dashboard.html')
+                return redirect(url_for('index'))
             else:
                 flash('Incorrect Email or Password', 'danger')
 
     signup_form = SignupForm(None) # to render indexpage with empty SignupForm
     return render_template('index.html', signup_form=signup_form, login_form=login_form)
+
 
 @app.route('/logout', methods=['GET'])
 @login_required
@@ -97,8 +104,9 @@ def tweet():
 
 
 @app.route('/tweets', methods=['GET'])
+@app.route('/tweets/<tweet_id>', methods=['GET'])
 @login_required
-def tweets():
+def tweets(tweet_id=None):
     tweets = models.Tweet.select()
     return render_template('tweets.html', tweets=tweets)
 

@@ -5,14 +5,14 @@
 {% endblock %}
 
 {% block content %}
-<div>
-    {% for tweet in tweets %}
-        <article>
-            <h2>@{{ tweet.user.username }}</h2>
-            <i class="fa fa-clock-o" aria-hidden="true"></i><span> {{ tweet.timestamp.strftime('%Y-%m-%d %H:%M:%S') }} </span>
-            <p>{{ tweet.content }}</p>
-        </article>
-    {% endfor %}
-</div>
+    <div>
+        {% for tweet in tweets %}
+            <article>
+                <h2>@{{ tweet.user.username }}</h2>
+                <i class="fa fa-clock-o" aria-hidden="true"></i><span> {{ tweet.timestamp.strftime('%d-%m-%Y %H:%M:%S') }} </span>
+                <p>{{ tweet.content }}</p>
+            </article>
+        {% endfor %}
+    </div>
 {% endblock %}
 
