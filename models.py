@@ -23,7 +23,13 @@ class User(UserMixin, Model):
 
     @classmethod
     def create_user(cls, input_name, input_email, input_username, input_password):
-        cls.create(name=input_name, email=input_email, username=input_username, password=generate_password_hash(input_password))
+        with database.transaction():
+            cls.create(
+                    name=input_name,
+                    email=input_email,
+                    username=input_username,
+                    password=generate_password_hash(input_password)
+            )
 
     def get_tweets(self):
         return Tweet.select().where(Tweet.user == self)
