@@ -27,12 +27,13 @@ def load_user(userid):
 @app.route('/<username>', methods=['GET'])
 def index(username=None):
     login_form = LoginForm()
+    tweet_form = TweetForm()
     if username or current_user.is_authenticated:
         if username:
             user = models.User.get(models.User.username**username)
         else:
             user = current_user._get_current_object()
-        return render_template('dashboard.html', user=user, login_form=login_form)
+        return render_template('dashboard.html', user=user, login_form=login_form, tweet_form=tweet_form)
 
     signup_form = SignupForm()
     return render_template('index.html', signup_form=signup_form, login_form=login_form)

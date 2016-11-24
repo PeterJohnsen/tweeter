@@ -31,8 +31,15 @@
                         
                     <!-- Collapsable nav-bar for toggling on mobile -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ url_for('tweets') }}">Popular Tweets</a></li>
+                            <li><a href="{{ url_for('tweets') }}">Fav Tweets</a></li>
+                        </ul>
                         {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('logout') }}" class="btn btn-primary btn-signin navbar-right" style="margin: 7px;" role="button">Log Out</a>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="{{ url_for('index') }}">My Profile</a></li>
+                                <li><a href="{{ url_for('logout') }}" role="button">Log Out</a>
+                            </ul>
                         {% else %}
                             <form method="POST" action="{{ url_for('login') }}" class="navbar-form navbar-right">
                                 {{ login_form.hidden_tag() }}

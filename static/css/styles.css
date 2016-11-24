@@ -82,3 +82,21 @@ article {
         padding: 5px 30px;
         margin-bottom: 25px;
 }
+
+.tweet-content {
+        margin-top: 15px;
+        font-weight: 500;
+}
+
+textarea {
+        font-weight: 100;
+        font-size: larger !important;
+}
+
+.btn-tweet {
+    min-width: 350px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+    font-weight: 100;
+    font-size: large;
+}

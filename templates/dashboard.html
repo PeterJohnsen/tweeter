@@ -10,13 +10,28 @@
         <h4> @{{ user.username }} </h4>
         <h5> Joined on: {{ user.joined_at.strftime('%d-%m-%Y') }} </h4>
     </div>
+    {% if current_user.is_authenticated %}
+        <form align="center" method="POST" action="{{ url_for('tweet') }}">
+            {% for field in tweet_form %}
+            {{ tweet_form.hidden_tag() }}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <span style="font-size: x-small;color: firebrick;"> {{ error }} </span>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-group">
+                    {{ field(placeholder=field.label.text, class='form-control', rows='1') }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary btn-tweet">t w e e t</button>
+        </form>
+    {% endif %}
 
     <div>
         {% for tweet in user.tweets %}
             <article>
-                <h2>@{{ tweet.user.username }}</h2>
-                <i class="fa fa-clock-o" aria-hidden="true"></i><span> {{ tweet.timestamp.strftime('%d-%m-%Y %H:%M:%S') }} </span>
-                <p>{{ tweet.content }}</p>
+                <p class="tweet-content">{{ tweet.content }}</p>
+                <div align="right"><i class="fa fa-clock-o" aria-hidden="true"></i><span> {{ tweet.timestamp.strftime('%d-%m-%Y %H:%M:%S') }} </span></div>
             </article>
         {% endfor %}
     </div>

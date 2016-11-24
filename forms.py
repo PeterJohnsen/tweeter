@@ -31,4 +31,4 @@ class LoginForm(FlaskForm):
 
 
 class TweetForm(FlaskForm):
-    content = TextAreaField("What's on your mind?...", validators=[DataRequired()])
+    content = TextAreaField("What's on your mind?...", validators=[DataRequired(), Length(max=140)])
