@@ -8,7 +8,16 @@
     <div>
         {% for tweet in tweets %}
             <article>
-                <h2>@<a href="{{ url_for('index', username=tweet.user.username) }}">{{ tweet.user.username }}</a></h2>
+                <h2>
+                    @<a href="{{ url_for('index', username=tweet.user.username) }}">{{ tweet.user.username }}</a>
+                    {% if not (current_user.username == tweet.user.username) %}
+                        {% if current_user.is_authenticated and tweet.user in current_user.get_followees() %}
+                            <a class="btn btn-primary" href="/unfollow/{{ tweet.user.username }}" role="button">Unfollow</a>
+                        {% else %}
+                            <a class="btn btn-primary" href="/follow/{{ tweet.user.username }}" role="button">Follow</a>
+                        {% endif %}
+                    {% endif %}
+                </h2>
                 <p class="tweet-content">{{ tweet.content }}</p>
                 <div align="right"><i class="fa fa-clock-o" aria-hidden="true"></i><span> {{ tweet.timestamp.strftime('%d-%m-%Y %H:%M:%S') }} </span></div>
             </article>

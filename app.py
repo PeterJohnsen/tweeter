@@ -27,8 +27,8 @@ def load_user(userid):
 @app.route('/<username>', methods=['GET'])
 def index(username=None):
     login_form = LoginForm()
-    tweet_form = TweetForm()
     if username or current_user.is_authenticated:
+        tweet_form = TweetForm()
         if username:
             user = models.User.get(models.User.username**username)
         else:
@@ -106,10 +106,51 @@ def tweet():
 
 @app.route('/tweets', methods=['GET'])
 @app.route('/tweets/<tweet_id>', methods=['GET'])
-@login_required
 def tweets(tweet_id=None):
     tweets = models.Tweet.select()
-    return render_template('tweets.html', tweets=tweets)
+    login_form = LoginForm()
+    return render_template('tweets.html', tweets=tweets, login_form=login_form)
+
+@app.route('/follow/<username>', methods=['GET'])
+@login_required
+def follow(username):
+    try:
+        followee = models.User.get(models.User.username**username)
+    except DoesNotExist:
+        flag('No such user', 'danger')
+        return redirect(url_for('index'))
+    else:
+        try:
+            models.Relationship.create(
+                    follower=current_user._get_current_object(),
+                    followee=followee
+            )
+        except models.IntegrityError:
+            pass
+        else:
+            flash('You are now following {}!'.format(username), 'success')
+    return redirect(url_for('index', username=username))
+
+        
+@app.route('/unfollow/<username>', methods=['GET'])
+@login_required
+def unfollow(username):
+    try:
+        followee = models.User.get(models.User.username**username)
+    except DoesNotExist:
+        flag('No such user', 'danger')
+        return redirect(url_for('index'))
+    else:
+        try:
+            models.Relationship.get(
+                    models.Relationship.follower==current_user._get_current_object(),
+                    models.Relationship.followee==followee
+            ).delete_instance()
+        except models.DoesNotExist:
+            pass
+        else:
+            flash('You unfollowed {}!'.format(username), 'success')
+    return redirect(url_for('index', username=username))
 
 
 @app.before_request

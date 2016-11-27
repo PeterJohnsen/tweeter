@@ -8,7 +8,19 @@
     <div class="jumbotron">
         <h2>{{ user.name }} </h2>
         <h4> @{{ user.username }} </h4>
-        <h5> Joined on: {{ user.joined_at.strftime('%d-%m-%Y') }} </h4>
+        <h5>Followers: {{ user.get_followers().count() }}</h5>
+        <h5>Following: {{ user.get_followees().count() }}</h5>
+        {% if not (current_user.username == user.username) %}
+            
+            {% if current_user.is_authenticated and user in current_user.get_followees() %}
+                <a class="btn btn-primary" href="/unfollow/{{ user.username }}" role="button">Unfollow</a>
+            {% else %}
+                <a class="btn btn-primary" href="/follow/{{ user.username }}" role="button">Follow</a>
+            {% endif %}
+        {% endif %}
+        <div align="right">
+            <span> Joined on: {{ user.joined_at.strftime('%d-%m-%Y') }} </span>
+        </div>
     </div>
     {% if current_user.username == user.username %}
         <form align="center" method="POST" action="{{ url_for('tweet') }}">

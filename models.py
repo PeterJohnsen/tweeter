@@ -34,12 +34,12 @@ class User(UserMixin, Model):
     def get_tweets(self):
         return Tweet.select().where(Tweet.user == self)
 
-    def following(self):
+    def get_followees(self):
         return User.select().join(
                 Relationship, on=Relationship.followee
                 ).where(Relationship.follower == self)
 
-    def followers(self):
+    def get_followers(self):
         return User.select().join(
                 Relationship, on=Relationship.follower
                 ).where(Relationship.followee == self)
@@ -56,15 +56,15 @@ class Tweet(Model):
 
 
 class Relationship(Model):
-    follower = ForeignKeyField('User', 'followers')
-    followee = ForeginKeyField('User', 'followee')
+    follower = ForeignKeyField(User, 'followers')
+    followee = ForeignKeyField(User, 'followee')
 
     class Meta:
         database = database
-        indexes = (('follower', 'followee'), True)
+        indexes = ((('follower', 'followee'), True))
 
 
 def initialise():
     database.connect()
-    database.create_tables([User, Tweet, Follow], safe=True)
+    database.create_tables([User, Tweet, Relationship], safe=True)
     database.close()

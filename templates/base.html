@@ -32,8 +32,10 @@
                     <!-- Collapsable nav-bar for toggling on mobile -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url_for('tweets') }}">Popular Tweets</a></li>
-                            <li><a href="{{ url_for('tweets') }}">Fav Tweets</a></li>
+                            <li><a href="{{ url_for('tweets') }}">Trending Tweets</a></li>
+                            {% if current_user.is_authenticated %}
+                                <li><a href="{{ url_for('tweets') }}">Fav Tweets</a></li>
+                            {% endif %}
                         </ul>
                         {% if current_user.is_authenticated %}
                             <ul class="nav navbar-nav navbar-right">
