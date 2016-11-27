@@ -34,6 +34,16 @@ class User(UserMixin, Model):
     def get_tweets(self):
         return Tweet.select().where(Tweet.user == self)
 
+    def following(self):
+        return User.select().join(
+                Relationship, on=Relationship.followee
+                ).where(Relationship.follower == self)
+
+    def followers(self):
+        return User.select().join(
+                Relationship, on=Relationship.follower
+                ).where(Relationship.followee == self)
+
 
 class Tweet(Model):
     timestamp = DateTimeField(default=datetime.datetime.now)
@@ -45,7 +55,16 @@ class Tweet(Model):
         order_by = ('-timestamp',)
 
 
+class Relationship(Model):
+    follower = ForeignKeyField('User', 'followers')
+    followee = ForeginKeyField('User', 'followee')
+
+    class Meta:
+        database = database
+        indexes = (('follower', 'followee'), True)
+
+
 def initialise():
     database.connect()
-    database.create_tables([User, Tweet], safe=True)
+    database.create_tables([User, Tweet, Follow], safe=True)
     database.close()

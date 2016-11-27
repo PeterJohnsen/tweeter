@@ -10,7 +10,7 @@
         <h4> @{{ user.username }} </h4>
         <h5> Joined on: {{ user.joined_at.strftime('%d-%m-%Y') }} </h4>
     </div>
-    {% if current_user.is_authenticated %}
+    {% if current_user.username == user.username %}
         <form align="center" method="POST" action="{{ url_for('tweet') }}">
             {% for field in tweet_form %}
             {{ tweet_form.hidden_tag() }}
