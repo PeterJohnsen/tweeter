@@ -18,6 +18,12 @@ a {
         border-color: firebrick;
 }
 
+.alert-note{
+        color: darkorange;
+        background-color: white;
+        border-color: darkorange;
+}
+
 .btn-primary{
         color: white;
         background-color: #03A9F4;

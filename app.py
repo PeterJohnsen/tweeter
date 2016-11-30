@@ -85,7 +85,7 @@ def logout():
     logout_user()
     login_form = LoginForm()
     signup_form = SignupForm()
-    flash('We will miss you. :(', 'success')
+    flash('We will miss you. :(', 'note')
     return render_template('index.html', login_form=login_form, signup_form=signup_form)
 
 
@@ -94,10 +94,11 @@ def logout():
 def tweet():
     tweet_form = TweetForm()
     if tweet_form.validate_on_submit():
-        models.Tweet.create(
-                user=current_user._get_current_object(),
-                content=tweet_form.content.data.strip()
-        )
+        with models.database.transaction():
+            models.Tweet.create(
+                    user=current_user._get_current_object(),
+                    content=tweet_form.content.data.strip()
+            )
         flash('You just tweeted. :)', 'success')
         return redirect(url_for('index'))
 
@@ -116,6 +117,10 @@ def tweets(tweet_id=None):
 @login_required
 def fav_tweets():
     tweets = models.Tweet.select().where(models.Tweet.user << current_user.get_followees())
+
+    if (tweets.count() == 0):
+        flash('You are not following anyone yet.', 'note')
+
     login_form = LoginForm()
     return render_template('tweets.html', tweets=tweets, login_form=login_form)
 
@@ -130,10 +135,11 @@ def follow(username):
         return redirect(url_for('index'))
     else:
         try:
-            models.Relationship.create(
-                    follower=current_user._get_current_object(),
-                    followee=followee
-            )
+            with models.database.transaction():
+                models.Relationship.create(
+                        follower=current_user._get_current_object(),
+                        followee=followee
+                )
         except models.IntegrityError:
             pass
         else:
@@ -158,7 +164,7 @@ def unfollow(username):
         except models.DoesNotExist:
             pass
         else:
-            flash('You unfollowed {}!'.format(username), 'success')
+            flash('You unfollowed {}!'.format(username), 'note')
     return redirect(url_for('index', username=username))
 
 
