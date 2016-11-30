@@ -10,8 +10,6 @@
         <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
         <link rel=stylesheet type="text/css" href="/static/css/styles.css">
         <link rel="icon" href="/static/img/favicon.png" type="image/x-icon" />
-        <script src="/static/js/jquery-3.1.1.min.js"></script>
-        <script src="/static/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="container">
@@ -32,9 +30,9 @@
                     <!-- Collapsable nav-bar for toggling on mobile -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url_for('tweets') }}">Trending Tweets</a></li>
+                            <li><a data-toggle="popover" data-trigger="hover" data-content='"Tweets from people around the world"' data-placement="bottom" href="{{ url_for('tweets') }}">Trending Tweets</a></li>
                             {% if current_user.is_authenticated %}
-                                <li><a href="{{ url_for('tweets') }}">Fav Tweets</a></li>
+                                <li><a data-toggle="popover" data-trigger="hover" data-content='"Tweets from people you follow"' data-placement="bottom" href="{{ url_for('fav_tweets') }}">Fav Tweets</a></li>
                             {% endif %}
                         </ul>
                         {% if current_user.is_authenticated %}
@@ -93,5 +91,13 @@
         </div>
         {% block footer %}
         {% endblock %}
+
+        <script src="/static/js/jquery-3.1.1.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="popover"]').popover(); 
+                });
+        </script>
     </body>
 </html>

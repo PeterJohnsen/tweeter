@@ -111,6 +111,15 @@ def tweets(tweet_id=None):
     login_form = LoginForm()
     return render_template('tweets.html', tweets=tweets, login_form=login_form)
 
+
+@app.route('/fav_tweets', methods=['GET'])
+@login_required
+def fav_tweets():
+    tweets = models.Tweet.select().where(models.Tweet.user << current_user.get_followees())
+    login_form = LoginForm()
+    return render_template('tweets.html', tweets=tweets, login_form=login_form)
+
+
 @app.route('/follow/<username>', methods=['GET'])
 @login_required
 def follow(username):

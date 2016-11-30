@@ -100,3 +100,14 @@ textarea {
     font-weight: 100;
     font-size: large;
 }
+
+.popover.bottom {
+    color: white;
+    font-weight: 200;
+    background-color: #03A9F4;
+}
+
+.popover.bottom>.arrow:after {
+    border-bottom-color: #03A9F4;
+}
+
