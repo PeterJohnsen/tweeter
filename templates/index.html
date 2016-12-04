@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <form style="padding-top:25px;" action="{{ url_for('signup') }}" method="POST">
+                    <form style="padding:25px 0px;" action="{{ url_for('signup') }}" method="POST">
                         {{ signup_form.hidden_tag() }}
                         {% for field in signup_form %}
                             {% if field.errors %}
@@ -44,7 +44,7 @@
 
 
 {% block footer %}
-    <footer class="footer">
+    <footer class="footer navbar-fixed-bottom">
       <div align="center" class="container">
           <div id="footer-div">
               <p class="text-muted" style="margin-top:15px;">
