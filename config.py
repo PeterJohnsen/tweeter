@@ -1,0 +1,5 @@
+DEBUG= #TO DO
+HOST=''  #TO DO
+PORT=''  #TO DO
+DATABASE='tweeter.db' 
+SECRET_KEY='' #TO DO
